@@ -7,6 +7,9 @@ services:
             - "32001:3306"
         environment:
             MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: scores
+        volumes:
+            - "/home/ubuntu/data:/var/lib/mysql"
     app:
         container_name: myapp
         links:
@@ -14,3 +17,14 @@ services:
         build: ./
         ports:
             - "3000:3000"
+        environment:
+            MYSQL_USERNAME: root
+            MYSQL_PASSWORD: root
+            MYSQL_INSTANCE_NAME: scores
+            MYSQL_PORT_3306_TCP_ADDR: db
+            MYSQL_PORT_3306_TCP_PORT: 3306
+            FLASK_ENV: development
+            FLASK_DEBUG: 1
+            FLASK_APP: application.py
+        volumes:
+            - "/home/ubuntu/app:/app"
